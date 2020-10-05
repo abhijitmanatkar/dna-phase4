@@ -5,6 +5,7 @@ import globals
 from agent import *
 
 
+
 def option2():
     """
     Function to implement option 1
