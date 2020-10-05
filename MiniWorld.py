@@ -227,12 +227,7 @@ while(1):
                     tmp = input("Enter any key to CONTINUE>")
             globals.con.close()
 
-<<<<<<< HEAD
-    except Exception as e:
-        print(e)
-=======
     except:
->>>>>>> 281e2e1978539390447de91167dbff4c249dfb31
         #tmp = sp.call('clear', shell=True)
         print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
         tmp = input("Enter any key to CONTINUE>")
