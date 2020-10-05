@@ -65,6 +65,28 @@ def hireAnEmployee():
 
     return
 
+def addAgent():
+    try:
+        row = {}
+        print("Enter agent's details: ")
+        row["name"] = nput("Enter name:")
+        row["data_of_birth"] = input("Enter Date of Birth (YYYY-MM-DD):") 
+        row["nationality"] = input("Enter nationality:")
+
+        query = "INSERT INTO AGENT (name, data_of_birth, nationality) VALUES ('%s', '%s', '%s')" %  (row["name"], row["data_of_birth"], row["nationality"])
+        print(query)
+        cur.execute(query)
+        con.commit()
+
+        print("Inserted agent into database")
+        return true
+
+    except Exception as e:
+        con.rollback()
+        print("Failed to insert into database")
+        print(">>>>>>>>>>>>>", e)
+        return false
+        
 
 def dispatch(ch):
     """
@@ -72,7 +94,7 @@ def dispatch(ch):
     """
 
     if(ch == 1):
-        hireAnEmployee()
+        addAgent()
     elif(ch == 2):
         option2()
     elif(ch == 3):
@@ -86,18 +108,15 @@ def dispatch(ch):
 # Global
 while(1):
     tmp = sp.call('clear', shell=True)
-    
-    # Can be skipped if you want to hard core username and password
-    username = input("Username: ")
-    password = input("Password: ")
 
     try:
         # Set db name accordingly which have been create by you
         # Set host to the server's address if you don't want to use local SQL server 
-        con = pymysql.connect(host='localhost',
-                              user=username,
-                              password=password,
-                              db='COMPANY',
+        con = pymysql.connect(host='sql12.freesqldatabase.com',
+                              user='sql12368590',
+                              password='EuQ3fsLRGW',
+                              db='sql12368590',
+                              port=3306,
                               cursorclass=pymysql.cursors.DictCursor)
         tmp = sp.call('clear', shell=True)
 
@@ -112,7 +131,7 @@ while(1):
             while(1):
                 tmp = sp.call('clear', shell=True)
                 # Here taking example of Employee Mini-world
-                print("1. Option 1")  # Hire an Employee
+                print("1. Add Agent")  # Hire an Employee
                 print("2. Option 2")  # Fire an Employee
                 print("3. Option 3")  # Promote Employee
                 print("4. Option 4")  # Employee Statistics
