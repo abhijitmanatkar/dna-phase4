@@ -69,7 +69,7 @@ def addAgent():
     try:
         row = {}
         print("Enter agent's details: ")
-        row["name"] = nput("Enter name:")
+        row["name"] = input("Enter name:")
         row["data_of_birth"] = input("Enter Date of Birth (YYYY-MM-DD):") 
         row["nationality"] = input("Enter nationality:")
 
@@ -79,13 +79,13 @@ def addAgent():
         con.commit()
 
         print("Inserted agent into database")
-        return true
+        return True
 
     except Exception as e:
         con.rollback()
         print("Failed to insert into database")
         print(">>>>>>>>>>>>>", e)
-        return false
+        return False
         
 
 def dispatch(ch):
@@ -101,6 +101,103 @@ def dispatch(ch):
         option3()
     elif(ch == 4):
         option4()
+    elif(ch == 5):
+        option4()
+    elif(ch == 6):
+        option4()
+    elif(ch == 7):
+        option4()
+    elif(ch == 8):
+        option4()
+    elif(ch == 9):
+        option4()
+    elif(ch == 10):
+        option4()
+    elif(ch == 11):
+        option4()
+    elif(ch == 12):
+        option4()
+    elif(ch == 13):
+        option4()
+    elif(ch == 14):
+        option4()
+    elif(ch == 15):
+        option4()
+    elif(ch == 16):
+        option2()
+    elif(ch == 17):
+        option3()
+    elif(ch == 18):
+        option4()
+    elif(ch == 19):
+        option4()
+    elif(ch == 20):
+        option4()
+    elif(ch == 21):
+        option4()
+    elif(ch == 22):
+        option4()
+    elif(ch == 23):
+        option4()
+    elif(ch == 24):
+        option4()
+    elif(ch == 25):
+        option4()
+    elif(ch == 26):
+        option4()
+    elif(ch == 27):
+        option4()
+    elif(ch == 28):
+        option4()
+    elif(ch == 29):
+        option4()
+    elif(ch == 30):
+        option4()
+    elif(ch == 31):
+        option4()
+    elif(ch == 32):
+        option4()
+    elif(ch == 33):
+        option4()
+    elif(ch == 34):
+        option4()
+    elif(ch == 35):
+        option4()
+    elif(ch == 36):
+        option4()
+    elif(ch == 37):
+        option5()
+    elif(ch == 31):
+        option4()
+    elif(ch == 32):
+        option4()
+    elif(ch == 33):
+        option4()
+    elif(ch == 34):
+        option4()
+    elif(ch == 35):
+        option4()
+    elif(ch == 36):
+        option4()
+    elif(ch == 37):
+        option5()
+    elif(ch == 38):
+        option4()
+    elif(ch == 39):
+        option4()
+    elif(ch == 40):
+        option4()
+    elif(ch == 41):
+        option4()
+    elif(ch == 42):
+        option4()
+    elif(ch == 43):
+        option4()
+    elif(ch == 44):
+        option4()
+    elif(ch == 45):
+        option4()
+        
     else:
         print("Error: Invalid Option")
 
@@ -130,21 +227,67 @@ while(1):
         with con.cursor() as cur:
             while(1):
                 tmp = sp.call('clear', shell=True)
-                # Here taking example of Employee Mini-world
-                print("1. Add Agent")  # Hire an Employee
-                print("2. Option 2")  # Fire an Employee
-                print("3. Option 3")  # Promote Employee
-                print("4. Option 4")  # Employee Statistics
-                print("5. Logout")
+                # The options presented for database operation
+                print("1. Add Agent")  # insert agent 
+                print("2. Add Player")  
+                print("3. Add Club")  # Promote Employee
+                print("4. Add Owner")  # Employee Statistics
+                print("5. Add Coach")
+                print("6. Add Season")
+                print("7. Add Manager")
+                print("8. Update Nationality of Manager")
+                print("9. Update Nationality of Player")
+                print("10. Update Nationality of Owner")
+                print("11. Update Nationality of Coach")
+                print("12. Update Nationality of Agent")
+                print("13. Update Current Club of a Manager")
+                print("14. Delete Club")
+                print("15. Delete Player")
+                print("16. Delete Manager")
+                print("17. Delete Owner")
+                print("18. Delete Agent")
+                print("19. Delete Coach")
+                print("20. Display teams in a tournament")
+                print("21. Display Squad of a club")
+                print("22. Display Player performance for a season")
+                print("23. Display Transfer out of a club")
+                print("24. Display all Transfer of a club")
+                print("25. Display Transfer in of a club")
+                print("26. Display all players of a country")
+                print("27. Filter players by a given statistic")
+                print("28. Filter Transfers by Price Range")
+                print("29. Filter Managers by statistic")
+                print("30. Display Goals/90 and Assist/90")
+                print("31. Show player with  most goals")
+                print("32. Show player with Highest Assists")
+                print("33. Show player with least yellow cards")
+                print("34. Display Career stats for a given Player")
+                print("35. Return Net Spent of a Club")
+                print("36. Search Player")
+                print("37. Search Club")
+                print("38. Show all Players")
+                print("39. Show all Coaches")
+                print("40. Show all Manager")
+                print("41. Show all Owner")
+                print("42. Show all Agents")
+                print("43. Show all Clubs")
+                print("44. Show all Tournament")
+                print("45. Show Club results in a tournament")
+
+                print("46. Logout")
+                
+                
+
+
                 ch = int(input("Enter choice> "))
                 tmp = sp.call('clear', shell=True)
-                if ch == 5:
+                if ch == 46:
                     break
                 else:
                     dispatch(ch)
                     tmp = input("Enter any key to CONTINUE>")
 
     except:
-        tmp = sp.call('clear', shell=True)
+        #tmp = sp.call('clear', shell=True)
         print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
         tmp = input("Enter any key to CONTINUE>")
