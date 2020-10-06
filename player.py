@@ -1,4 +1,5 @@
 import globals
+from validators import *
 from columnar import columnar
 
 def getPositions(player_id):
@@ -48,6 +49,32 @@ def getAllPlayersByStat():
 
 def getAllPlayersByCountry():
     pass
+
+def updatePlayerNationality():
+    try:
+        player_id = int(input("Enter player ID:"))
+        q = "SELECT * FROM PLAYER WHERE player_id=%d" % (player_id)
+        globals.cur.execute(q)
+        player = globals.cur.fetchone()
+        if player is None:
+            print("Not found")
+            return False
+        newNationality = input("Enter new nationality:")
+        if not ValidateNationality(newNationality):
+            print("Not a valid nationality")
+            return False
+        query = "UPDATE PLAYER SET nationality='%s' WHERE player_id=%d" % (newNationality, player_id)
+        globals.cur.execute(query)
+        globals.con.commit()
+
+        print("Nationality updated")
+        return True
+    
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to update")
+        print(">>>>>>>>>>>>>", e)
+        return False
 
 def searchPlayer():
     pass

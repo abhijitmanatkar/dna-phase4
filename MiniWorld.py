@@ -53,17 +53,17 @@ def dispatch(ch):
     elif(ch == 7):
         option4()
     elif(ch == 8):
-        option4()
+        updateManagerNationality()
     elif(ch == 9):
-        option4()
+        updatePlayerNationality()
     elif(ch == 10):
-        option4()
+        updateOwnerNationality()
     elif(ch == 11):
-        option4()
+        updateCoachNationality()
     elif(ch == 12):
-        option4()
+        updateAgentNationality()
     elif(ch == 13):
-        option4()
+        updateManagerNationality()
     elif(ch == 14):
         option4()
     elif(ch == 15):

@@ -55,5 +55,29 @@ def deleteAgent():
     pass
 
 def updateAgentNationality():
-    pass
+    try:
+        agent_id = int(input("Enter Agent ID:"))
+        q = "SELECT * FROM AGENT WHERE agent_id=%d" % (agent_id)
+        globals.cur.execute(q)
+        agent = globals.cur.fetchone()
+        if agent is None:
+            print("Not found")
+            return False
+        newNationality = input("Enter new nationality:")
+        if not ValidateNationality(newNationality):
+            print("Not a valid nationality")
+            return False
+        query = "UPDATE AGENT SET nationality='%s' WHERE agent_id=%d" % (newNationality, agent_id)
+        globals.cur.execute(query)
+        globals.con.commit()
+
+        print("Nationality updated")
+        return True
+    
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to update")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
 
