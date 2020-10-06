@@ -1,5 +1,6 @@
 import globals
 from columnar import columnar
+from validators import *
 
 def getTransfersByPriceRange():
     try:
@@ -30,10 +31,139 @@ def getTransfersByPriceRange():
 
 
 def getMaxGoalsPlayerInSeason():
-    pass
+    try:
+        season = input("Enter the season you are interested in : ")
+        if(ValidateSeasonYear(season) == False):
+            print("Season year given is wrong")
+            return False
+        query = "SELECT * FROM PLAYED_FOR WHERE season_year = '%s' " % (season)
+        globals.cur.execute(query)
+        res = globals.cur.fetchall()
+        size = len(res)
+        if(size == 0):
+            print("Info for the given season doesnot exist")
+            return False
+        query = "SELECT MAX(goals) AS z FROM PLAYED_FOR WHERE season_year = '%s'" % (season)
+        globals.cur.execute(query)
+        res = globals.cur.fetchone()
+        query = "SELECT player_id,club_id,goals FROM PLAYED_FOR WHERE season_year = '%s' AND goals = %d " % (season,int(res["z"]))
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        data = []
+        headers = ['player_name','club_name','goals']
+        for r in result:
+            ll = {}
+            #print("here")
+            query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(r["player_id"]))
+            globals.cur.execute(query)
+            t = globals.cur.fetchone()
+            ll["player_name"] = t["player_name"]
+            query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(r["club_id"]))
+            globals.cur.execute(query)
+            t = globals.cur.fetchone()
+            ll["club_name"] = t["club_name"]
+            ll["goals"] = r["goals"]
+            resll = list(ll.values())
+            data.append(resll)
+
+        table = columnar(data,headers)
+        print(table)
+        return True
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
 
 def getMaxAssistsPlayerInSeason():
-    pass
+    try:
+        season = input("Enter the season you are interested in : ")
+        if(ValidateSeasonYear(season) == False):
+            print("Season year given is wrong")
+            return False
+        query = "SELECT * FROM PLAYED_FOR WHERE season_year = '%s' " % (season)
+        globals.cur.execute(query)
+        res = globals.cur.fetchall()
+        size = len(res)
+        if(size == 0):
+            print("Info for the given season doesnot exist")
+            return False
+        query = "SELECT MAX(assists) AS z FROM PLAYED_FOR WHERE season_year = '%s'" % (season)
+        globals.cur.execute(query)
+        res = globals.cur.fetchone()
+        query = "SELECT player_id,club_id,assists FROM PLAYED_FOR WHERE season_year = '%s' AND assists = %d " % (season,int(res["z"]))
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        data = []
+        headers = ['player_name','club_name','yellow_cards']
+        for r in result:
+            ll = {}
+            #print("here")
+            query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(r["player_id"]))
+            globals.cur.execute(query)
+            t = globals.cur.fetchone()
+            ll["player_name"] = t["player_name"]
+            query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(r["club_id"]))
+            globals.cur.execute(query)
+            t = globals.cur.fetchone()
+            ll["club_name"] = t["club_name"]
+            ll["assists"] = r["assists"]
+            resll = list(ll.values())
+            data.append(resll)
 
-def getMinYellowCardsPlayerInSeason():
-    pass
+        table = columnar(data,headers)
+        print(table)
+        return True
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
+
+def getMostYellowCardsPlayerInSeason():
+    try:
+        season = input("Enter the season you are interested in : ")
+        if(ValidateSeasonYear(season) == False):
+            print("Season year given is wrong")
+            return False
+        query = "SELECT * FROM PLAYED_FOR WHERE season_year = '%s' " % (season)
+        globals.cur.execute(query)
+        res = globals.cur.fetchall()
+        size = len(res)
+        if(size == 0):
+            print("Info for the given season doesnot exist")
+            return False
+        query = "SELECT MAX(yellow_cards) AS z FROM PLAYED_FOR WHERE season_year = '%s'" % (season)
+        globals.cur.execute(query)
+        res = globals.cur.fetchone()
+        query = "SELECT player_id,club_id,yellow_cards FROM PLAYED_FOR WHERE season_year = '%s' AND yellow_cards = %d " % (season,int(res["z"]))
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        data = []
+        headers = ['player_name','club_name','yellow_cards']
+        for r in result:
+            ll = {}
+            #print("here")
+            query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(r["player_id"]))
+            globals.cur.execute(query)
+            t = globals.cur.fetchone()
+            ll["player_name"] = t["player_name"]
+            query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(r["club_id"]))
+            globals.cur.execute(query)
+            t = globals.cur.fetchone()
+            ll["club_name"] = t["club_name"]
+            ll["yellow_cards"] = r["yellow_cards"]
+            resll = list(ll.values())
+            data.append(resll)
+
+        table = columnar(data,headers)
+        print(table)
+        return True
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
