@@ -52,7 +52,24 @@ def insertAgent():
         return False
 
 def deleteAgent():
-    pass
+        try :
+            x = int(input("Enter agent_id of the agent to be deleted: "))
+            query1 = "DELETE FROM AGENT WHERE agent_id = %d " % (x)
+            query2 = "DELETE FROM TRANSFER WHERE agent_id = %d " % (x)
+            query = "UPDATE PLAYER SET agent_id = NULL WHERE agent_id =  %d" % (x)
+        
+            globals.cur.execute(query)
+            globals.cur.execute(query2)
+            globals.cur.execute(query1)
+            
+            globals.con.commit()
+            print("Agent with given Id doesnot exist anymore")
+            return True
+        except Exception as e:
+            globals.con.rollback()
+            print("Failed to Delete")
+            print(">>>>>>>>>>>>>", e)
+            return False
 
 def updateAgentNationality():
     try:

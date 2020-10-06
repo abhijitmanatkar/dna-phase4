@@ -65,17 +65,17 @@ def dispatch(ch):
     elif(ch == 13):
         updateManagerClub()
     elif(ch == 14):
-        option4()
+        deleteClub()
     elif(ch == 15):
-        option4()
+        deletePlayer()
     elif(ch == 16):
-        option2()
+        deleteManager()
     elif(ch == 17):
-        option3()
+        deleteOwner()
     elif(ch == 18):
-        option4()
+        deleteAgent()
     elif(ch == 19):
-        option4()
+        deleteCoach()
     elif(ch == 20):
         getTournamentTeamsBySeason()
     elif(ch == 21):

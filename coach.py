@@ -103,5 +103,21 @@ def updateCoachNationality():
         return False
 
 def deleteCoach():
-    pass
+        try :
+            x = int(input("Enter manager_id of the coach to be deleted: "))
+            y = input("Enter the name of the coach to be deleted: ")
+            
+            query = "DELETE FROM COACH WHERE manager_id = %d AND name = '%s'" % (x,y)
+            #print(query)    
+        
+            globals.cur.execute(query)
+            
+            globals.con.commit()
+            print("Coach Deleted")
+            return True
+        except Exception as e:
+            globals.con.rollback()
+            print("Failed to Delete")
+            print(">>>>>>>>>>>>>", e)
+            return False
 

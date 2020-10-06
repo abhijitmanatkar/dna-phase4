@@ -75,5 +75,22 @@ def updateOwnerNationality():
         return False
 
 def deleteOwner():
-    pass
+    try :
+        x = int(input("Enter owner_id of the Owner to be deleted"))
+        query1 = "DELETE FROM OWNS WHERE owner_id = %d " % (x)
+        query = "DELETE FROM OWNER WHERE owner_id = %d " % (x)
+        
+        globals.cur.execute(query1)
+        globals.cur.execute(query)
+        globals.con.commit()
+        print("Owner Deleted")
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to Delet")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
+    
+
+
 

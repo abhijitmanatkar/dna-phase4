@@ -84,7 +84,33 @@ def searchClub():
     pass
 
 def deleteClub():
-    pass
+    try :
+        x = int(input("Enter club_id of the Club to be deleted"))
+        query1 = "DELETE FROM TRANSFER WHERE club_from_id = %d " % (x)
+        query7 = "DELETE FROM TRANSFER WHERE club_to_id = %d " % (x)
+        query = "DELETE FROM CLUB WHERE club_id = %d " % (x)
+        query2 = "DELETE FROM MANAGES WHERE club_id = %d " % (x)
+        query3 = "DELETE FROM OWNS WHERE club_id = %d " % (x)
+        query4 = "DELETE FROM PLAYED_IN_KNOCKOUT WHERE club_id = %d " % (x)
+        query5 = "DELETE FROM PLAYED_IN_LEAGUE WHERE club_id = %d " % (x)
+        query6 = "DELETE FROM PLAYED_FOR WHERE club_id = %d " % (x)
+        
+        globals.cur.execute(query1)
+        globals.cur.execute(query2)
+        globals.cur.execute(query3)
+        globals.cur.execute(query4)
+        globals.cur.execute(query5)
+        globals.cur.execute(query6)
+        globals.cur.execute(query7)
+        globals.cur.execute(query)
+        globals.con.commit()
+        print("Club Deleted")
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to Delete")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
 
 def getClubPlayersBySeason():
     try:

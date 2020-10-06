@@ -111,7 +111,25 @@ def updateManagerClub():
         return False
 
 def deleteManager():
-    pass
+        try :
+            x = int(input("Enter manager_id of the manager to be deleted"))
+            query1 = "DELETE FROM MANAGES WHERE manager_id = %d " % (x)
+            query2 = "DELETE FROM COACH WHERE manager_id = %d " % (x)
+            query = "DELETE FROM MANAGER WHERE manager_id = %d " % (x)
+        
+        
+            globals.cur.execute(query1)
+            globals.cur.execute(query2)
+            globals.cur.execute(query)
+            globals.con.commit()
+            print("Manager Deleted")
+            return True
+        except Exception as e:
+            globals.con.rollback()
+            print("Failed to Delete")
+            print(">>>>>>>>>>>>>", e)
+            return False
+
 
 def updateManagerNationality():
     try:
