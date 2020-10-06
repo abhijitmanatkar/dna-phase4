@@ -45,7 +45,16 @@ def getAllPlayers():
 
 def getAllPlayersByStat():
     # return all players filtered by a stat
-    pass
+    try:
+        print("Select which statistic to use:")
+        print("1. Goals")
+        print("2. Assists")
+        print("3. Saves")
+        print("4. Tackles")
+        print("5. Clearances")
+        print("6. Red Cards")
+        print("7. Yellow Cards")
+        print("8. Minutes played")
 
 def getAllPlayersByCountry():
     pass
@@ -119,7 +128,29 @@ def insertPlayer():
         return False
 
 def getPlayerStatsBySeason():
-    pass
+    try:
+        player_id = int(input("Enter player id:"))
+        season_year = input("Enter season year:")
+        query = "SELECT PLAYER.player_name,minutes_played,goals,assists,clearances,tackles,red_cards,yellow_cards,saves FROM PLAYER INNER JOIN PLAYED_FOR ON PLAYER.player_id=%d AND season_year='%s'" % (player_id, season_year)
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        headers = ["Name", "Minutes played", "Goals", "Assists", "Clearances", "Tackles", "Red cards", "Yellow cards", "Saves"]
+        data = []
+        for res in result:
+            data.append(list(res.values()))
+        if len(data) > 0:
+            for i in range(1,len(data)):
+                for j in range(1,9):
+                    data[0][j] += data[i][j]
+            data = data[0:1]
+        table = columnar(data, headers)
+        print(table)
+    
+    except Exception as e:
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
 
 def getPlayerStatsPer90():
     pass

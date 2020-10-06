@@ -77,11 +77,11 @@ def dispatch(ch):
     elif(ch == 19):
         option4()
     elif(ch == 20):
-        option4()
+        getTournamentTeamsBySeason()
     elif(ch == 21):
-        option4()
+        getClubPlayersBySeason()
     elif(ch == 22):
-        option4()
+        getPlayerStatsBySeason()
     elif(ch == 23):
         option4()
     elif(ch == 24):
