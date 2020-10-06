@@ -112,7 +112,25 @@ def deleteClub():
 
 
 def getClubPlayersBySeason():
-    pass
+    try:
+        club_id = int(input("Enter club id:"))
+        season_year = input("Enter a season year (20XX-YY):")
+        query = "SELECT PLAYER.player_name,minutes_played,goals,assists,clearances,tackles,red_cards,yellow_cards,saves FROM PLAYER INNER JOIN PLAYED_FOR ON PLAYER.player_id=PLAYED_FOR.player_id AND season_year='%s' AND club_id=%d" % (season_year, club_id)
+        print(query)
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        headers = ["Name", "Minutes played", "Goals", "Assists", "Clearances", "Tackles", "Red cards", "Yellow cards", "Saves"]
+        data = []
+        for res in result:
+            data.append(list(res.values()))
+        table = columnar(data, headers)
+        print(table)
+        return True
+    
+    except Exception as e:
+        print("Failed to retreive from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
 
 def getPlayersSoldByClub():
     try:
