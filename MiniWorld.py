@@ -3,12 +3,12 @@ import pymysql
 import pymysql.cursors
 import globals
 from agent import *
-from manager import *
-from coach import *
-from club import *
-from seasontournament import *
-from owner import *
 from player import *
+from owner import *
+from manager import *
+from club import *
+from coach import *
+from seasontournament import *
 
 
 def option2():
@@ -53,17 +53,17 @@ def dispatch(ch):
     elif(ch == 7):
         insertManager()
     elif(ch == 8):
-        option4()
+        updateManagerNationality()
     elif(ch == 9):
-        option4()
+        updatePlayerNationality()
     elif(ch == 10):
-        option4()
+        updateOwnerNationality()
     elif(ch == 11):
-        option4()
+        updateCoachNationality()
     elif(ch == 12):
-        option4()
+        updateAgentNationality()
     elif(ch == 13):
-        option4()
+        updateManagerNationality()
     elif(ch == 14):
         option4()
     elif(ch == 15):
@@ -127,19 +127,19 @@ def dispatch(ch):
     elif(ch == 37):
         option5()
     elif(ch == 38):
-        option4()
+        getAllPlayers()
     elif(ch == 39):
-        option4()
+        getAllCoaches()
     elif(ch == 40):
-        option4()
+        getAllManagers()
     elif(ch == 41):
-        option4()
+        getAllOwners()
     elif(ch == 42):
-        option4()
+        getAllAgents()
     elif(ch == 43):
-        option4()
+        getAllClubs()
     elif(ch == 44):
-        option4()
+        getAllTournaments()
     elif(ch == 45):
         option4()
         
