@@ -100,15 +100,15 @@ def dispatch(ch):
     elif(ch == 30):
         getPlayerStatsPer90()
     elif(ch == 31):
-        option4()
+        getMaxGoalsPlayerInSeason()
     elif(ch == 32):
-        option4()
+        getMaxAssistsPlayerInSeason()
     elif(ch == 33):
-        option4()
+        getMostYellowCardsPlayerInSeason()
     elif(ch == 34):
         getPlayerCareerStats()
     elif(ch == 35):
-        option4()
+        getClubNetSpent()
     elif(ch == 36):
         searchPlayer()
     elif(ch == 37):
@@ -192,7 +192,7 @@ while(1):
                 print("30. Display Goals/90 and Assist/90")
                 print("31. Show player with  most goals")
                 print("32. Show player with Highest Assists")
-                print("33. Show player with least yellow cards")
+                print("33. Show player with most yellow cards")
                 print("34. Display Career stats for a given Player")
                 print("35. Return Net Spent of a Club")
                 print("36. Search Player")

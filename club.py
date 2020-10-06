@@ -318,7 +318,45 @@ def getAllClubTransfers():
     
 
 def getClubNetSpent():
-    pass
+    try:
+        val = int(input("Enter the club_id of the club whose net spend you are interested in: "))
+        query = "SELECT SUM(transfer_fee) AS spent FROM TRANSFER WHERE club_to_id = %d " % (val)
+        globals.cur.execute(query)
+        
+        
+        res = globals.cur.fetchone()
+        plus = 2.00
+        if(res["spent"] == None):
+            plus = 0.00
+        else:
+            plus = float(res["spent"])
+        
+        query = "SELECT SUM(transfer_fee) AS got FROM TRANSFER WHERE club_from_id = %d " % (val)
+        globals.cur.execute(query)
+        res = globals.cur.fetchone()
+        
+        minus = -2.00
+        if(res["got"] == None):
+            minus = 0.00
+        else:
+            minus = float(res["got"])
+        
+        
+        total = float(plus-minus)
+        query = "SELECT club_name FROM CLUB WHERE club_id = %d " %(val)
+        globals.cur.execute(query)
+        res = globals.cur.fetchone()
+        clubname = res["club_name"]
+        ans = "Net Spend of %s is %f " % (clubname,total)
+        print(ans)
+    except Exception as e:
+        
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+    
+
+
 
 def getClubPerformanceInTournament():
     try:
