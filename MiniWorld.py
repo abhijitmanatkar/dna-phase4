@@ -98,7 +98,7 @@ def dispatch(ch):
     elif(ch == 29):
         getAllManagersByStat()
     elif(ch == 30):
-        option4()
+        getPlayerStatsPer90()
     elif(ch == 31):
         option4()
     elif(ch == 32):
@@ -106,27 +106,13 @@ def dispatch(ch):
     elif(ch == 33):
         option4()
     elif(ch == 34):
-        option4()
+        getPlayerCareerStats()
     elif(ch == 35):
         option4()
     elif(ch == 36):
-        option4()
+        searchPlayer()
     elif(ch == 37):
-        option5()
-    elif(ch == 31):
-        option4()
-    elif(ch == 32):
-        option4()
-    elif(ch == 33):
-        option4()
-    elif(ch == 34):
-        option4()
-    elif(ch == 35):
-        option4()
-    elif(ch == 36):
-        option4()
-    elif(ch == 37):
-        option5()
+        searchClub()
     elif(ch == 38):
         getAllPlayers()
     elif(ch == 39):
@@ -142,7 +128,7 @@ def dispatch(ch):
     elif(ch == 44):
         getAllTournaments()
     elif(ch == 45):
-        option4()
+        getClubPerformanceInTournament()
         
     else:
         print("Error: Invalid Option")

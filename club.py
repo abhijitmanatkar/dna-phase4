@@ -80,7 +80,36 @@ def insertClub():
     
 
 def searchClub():
-    pass
+    try:
+        name = input("Enter search term:")
+        name = '%' + name + '%'
+        query = "SELECT * FROM CLUB WHERE club_name LIKE '%s'" % name
+        print(query)
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        headers = ['Club ID', 'Name', 'Home Ground', 'Foundation Year', 'Street Address', 'Zip Code', 'City', 'Country']
+        data = []
+        for res in result:
+            try:
+                q = "SELECT * FROM ZIP_MAP WHERE zip_code='%s'" % (res["zip_code"])
+                globals.cur.execute(q)
+                zip_map = globals.cur.fetchone()
+                res["city"] = zip_map["city"]
+                res["country"] = zip_map["country"]
+            except:
+                res["city"] = ""
+                res["country"] = ""
+            reslist = list(res.values())
+            data.append(reslist)
+        table = columnar(data, headers)
+        print(table)
+        return True
+    
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
 
 def deleteClub():
     try :
@@ -292,4 +321,43 @@ def getClubNetSpent():
     pass
 
 def getClubPerformanceInTournament():
-    pass
+    try:
+        club_id = int(input("Enter club ID:"))
+        tournament_type = int(input("Enter 0 for leagues and 1 for knockout tournaments:"))
+        if tournament_type != 0 and tournament_type != 1:
+            print("Invalid input")
+            return False
+        tournament_name = input("Enter tournament name:")
+        q = "SELECT * FROM TOURNAMENT WHERE tournament_name='%s' AND tournament_type='%s'" % (tournament_name, ("League" if tournament_type == 0 else "Knockout"))
+        globals.cur.execute(q)
+        tournament = globals.cur.fetchone()
+        if tournament is None:
+            print("Not a valid tournament")
+            return False
+        season_year = input("Enter a season year (20XX-YY):")
+        q = "SELECT * FROM SEASON WHERE season_year='%s'" % season_year
+        globals.cur.execute(q)
+        season = globals.cur.fetchone()
+        if season is None:
+            print("Not a valid season year")
+            return False
+        if tournament_type == 0:
+            query = "SELECT CLUB.club_name,no_of_win,no_of_draw,no_of_loss,goals_for,goals_against FROM CLUB INNER JOIN PLAYED_IN_LEAGUE ON CLUB.club_id=PLAYED_IN_LEAGUE.club_id AND season_year='%s' AND tournament_name='%s' AND CLUB.club_id=%d" % (season_year, tournament_name, club_id)
+        else:
+            query = "SELECT CLUB.club_name,no_of_win,no_of_draw,no_of_loss,stage_of_exit FROM CLUB INNER JOIN PLAYED_IN_KNOCKOUT ON CLUB.club_id=PLAYED_IN_KNOCKOUT.club_id AND season_year='%s' AND tournament_name='%s' AND CLUB.club_id=%d" % (season_year, tournament_name, club_id)
+        print(query)
+        globals.cur.execute(query)
+        result = globals.cur.fetchone()
+        if tournament_type == 0:
+            headers = ["Club name", "W", "D", "L", "GF", "GA"]
+        else:
+            headers = ["Club name", "W", "D", "L", "Stage of Exit"]
+        data = [list(result.values())]
+        print(table)
+        return True
+    
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
