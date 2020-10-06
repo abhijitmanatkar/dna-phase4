@@ -126,3 +126,25 @@ def getPlayerStatsPer90():
 
 def getPlayerCareerStats():
     pass
+def deletePlayer():
+    try :
+        x = int(input("Enter player_id of the Player to be deleted :"))
+        query1 = "DELETE FROM PLAYED_FOR WHERE player_id = %d " % (x)
+        query = "DELETE FROM PLAYER WHERE player_id = %d " % (x)
+        query2 = "DELETE FROM TRANSFER WHERE player_id = %d " % (x)
+        query3 = "DELETE FROM POSITIONS WHERE player_id = %d " % (x)
+        
+        globals.cur.execute(query1)
+        globals.cur.execute(query2)
+        globals.cur.execute(query3)
+        globals.cur.execute(query)
+
+        globals.con.commit()
+        print("Player Deleted")
+        return True
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to Delete")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
