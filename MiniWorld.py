@@ -83,13 +83,13 @@ def dispatch(ch):
     elif(ch == 22):
         option4()
     elif(ch == 23):
-        option4()
+        getPlayersSoldByClub()
     elif(ch == 24):
-        option4()
+        getAllClubTransfers()
     elif(ch == 25):
-        option4()
+        getPlayersBoughtByClub()
     elif(ch == 26):
-        option4()
+        getAllPlayersByCountry()
     elif(ch == 27):
         option4()
     elif(ch == 28):

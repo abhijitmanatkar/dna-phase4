@@ -1,7 +1,6 @@
 import globals
 from validators import *
 from columnar import columnar
-
 def getAllClubs():
     try:
         query = "SELECT * FROM CLUB"
@@ -116,13 +115,160 @@ def getClubPlayersBySeason():
     pass
 
 def getPlayersSoldByClub():
-    pass
+    try:
+        x = int(input("enter the id of the club whose outgoing transfers you want "))
+        query = "SELECT * FROM TRANSFER WHERE club_from_id = %d " % (x)
+        globals.cur.execute(query)
+        temp = globals.cur.fetchall()
+        headers = ['player_name','transfer_from','tranfer_to','agent_name','transfer_fee','agent_fee','date_of_transfer']
+        data = []
+        
+        for t in temp:
+                #print("inside")
+                ll = {}
+                query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(t["club_from_id"]))
+                #print(query)
+                globals.cur.execute(query)
+                #print("here")
+                r1 = globals.cur.fetchone()
+                #print("haha")
+                ll["transfer_from"] = r1["club_name"]
+                #print("mota")
+                query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(t["club_to_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["transfer_to"] = r1["club_name"]
+                query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(t["player_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["player_name"] = r1["player_name"]
+                query = "SELECT name FROM AGENT WHERE agent_id = %d " % (int(t["agent_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["agent_name"] = r1["name"]
+                ll["transfer_fee"] = t["transfer_fee"]
+                ll["agent_fee"] = t["agent_fee"]
+                ll["date_of_transfer"] = t["date_of_transfer"]
+                #print(t)
+                lllist = list(ll.values())
+                data.append(lllist)
+        table = columnar(data, headers)
+        print(table)
+        return True
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
 
+                   
+            
 def getPlayersBoughtByClub():
-    pass
+    try:
+        x = int(input("enter the id of the club whose outgoing transfers you want "))
+        query = "SELECT * FROM TRANSFER WHERE club_to_id = %d " % (x)
+        globals.cur.execute(query)
+        temp = globals.cur.fetchall()
+        headers = ['player_name','transfer_from','tranfer_to','agent_name','transfer_fee','agent_fee','date_of_transfer']
+        data = []
+        
+        for t in temp:
+                #print("inside")
+                ll = {}
+                query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(t["club_from_id"]))
+                #print(query)
+                globals.cur.execute(query)
+                #print("here")
+                r1 = globals.cur.fetchone()
+                #print("haha")
+                ll["transfer_from"] = r1["club_name"]
+                #print("mota")
+                query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(t["club_to_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["transfer_to"] = r1["club_name"]
+                query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(t["player_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["player_name"] = r1["player_name"]
+                query = "SELECT name FROM AGENT WHERE agent_id = %d " % (int(t["agent_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["agent_name"] = r1["name"]
+                ll["transfer_fee"] = t["transfer_fee"]
+                ll["agent_fee"] = t["agent_fee"]
+                ll["date_of_transfer"] = t["date_of_transfer"]
+                #print(t)
+                lllist = list(ll.values())
+                data.append(lllist)
+        table = columnar(data, headers)
+        print(table)
+        return True
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
 
 def getAllClubTransfers():
-    pass
+    try:
+        x = int(input("Enter the ID of the club whose transfers you want : "))
+        data = []
+        
+        query = "SELECT * FROM TRANSFER WHERE club_from_id = %d OR club_to_id = %d " % (x,x)
+        globals.cur.execute(query)
+        temp = globals.cur.fetchall()
+        headers = ['player_name','transfer_from','tranfer_to','agent_name','transfer_fee','agent_fee','date_of_transfer']
+    
+        
+        for t in temp:
+                #print("inside")
+                ll = {}
+                query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(t["club_from_id"]))
+                #print(query)
+                globals.cur.execute(query)
+                #print("here")
+                r1 = globals.cur.fetchone()
+                #print("haha")
+                ll["transfer_from"] = r1["club_name"]
+                #print("mota")
+                query = "SELECT club_name FROM CLUB WHERE club_id = %d " % (int(t["club_to_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["transfer_to"] = r1["club_name"]
+                query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(t["player_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["player_name"] = r1["player_name"]
+                query = "SELECT name FROM AGENT WHERE agent_id = %d " % (int(t["agent_id"]))
+                globals.cur.execute(query)
+                #print(query)
+                r1 = globals.cur.fetchone()
+                ll["agent_name"] = r1["name"]
+                ll["transfer_fee"] = t["transfer_fee"]
+                ll["agent_fee"] = t["agent_fee"]
+                ll["date_of_transfer"] = t["date_of_transfer"]
+                #print(t)
+                lllist = list(ll.values())
+                data.append(lllist)
+        table = columnar(data, headers)
+        print(table)
+        return True
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
+    
 
 def getClubNetSpent():
     pass
