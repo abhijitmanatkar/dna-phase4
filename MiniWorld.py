@@ -41,17 +41,17 @@ def dispatch(ch):
     if(ch == 1):
         insertAgent()
     elif(ch == 2):
-        option2()
+        insertPlayer()
     elif(ch == 3):
-        option3()
+        insertClub()
     elif(ch == 4):
-        option4()
+        insertOwner()
     elif(ch == 5):
-        option4()
+        insertCoach()
     elif(ch == 6):
-        option4()
+        insertSeason()
     elif(ch == 7):
-        option4()
+        insertManager()
     elif(ch == 8):
         updateManagerNationality()
     elif(ch == 9):
