@@ -3,7 +3,12 @@ import pymysql
 import pymysql.cursors
 import globals
 from agent import *
-
+from manager import *
+from coach import *
+from club import *
+from seasontournament import *
+from owner import *
+from player import *
 
 
 def option2():
@@ -36,17 +41,17 @@ def dispatch(ch):
     if(ch == 1):
         insertAgent()
     elif(ch == 2):
-        option2()
+        insertPlayer()
     elif(ch == 3):
-        option3()
+        insertClub()
     elif(ch == 4):
-        option4()
+        insertOwner()
     elif(ch == 5):
-        option4()
+        insertCoach()
     elif(ch == 6):
-        option4()
+        insertSeason()
     elif(ch == 7):
-        option4()
+        insertManager()
     elif(ch == 8):
         option4()
     elif(ch == 9):
