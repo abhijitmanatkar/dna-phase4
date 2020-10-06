@@ -85,7 +85,29 @@ def getAllPlayersByStat():
 
 
 def getAllPlayersByCountry():
-    pass
+    try:
+        cnt = input("Enter the countries whose players you want : ")
+        tem = cnt.strip(' ')
+        cnt = tem
+        query = "SELECT * FROM PLAYER WHERE nationality = '%s'" % (cnt)
+        globals.cur.execute(query)
+        res = globals.cur.fetchall()
+        headers = ['player_name','player_id','date_of_birth']
+        l1=[]
+        for z in res:
+            #print(z)
+            lz = list(z.values())
+            l1.append(lz)
+            #print(l1)
+        table = columnar(l1,headers)
+        print(table)
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
+
 
 def updatePlayerNationality():
     try:
