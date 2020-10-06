@@ -24,7 +24,43 @@ def getAllManagers():
 
 def getAllManagersByStat():
     # get all managers filtered by a stat
-    pass
+    try:
+        print("Select which statistic to use:")
+        print("1. Wins")
+        print("2. Draws")
+        print("3. Losses")
+        print("4. Win %")
+        
+        ch = int(input())
+        if ch > 5 or ch < 1:
+            print("Invalid choice")
+            return False
+        
+        low = int(input("Enter lower bound:"))
+        high = int(input("Enter upper bound:"))
+
+        season_year = input("Enter season year:")
+
+        stats = ["", "no_of_win", "no_of_draw", "no_of_loss", "(100*no_of_win)/(no_of_win + no_of_draw + no_of_loss)"]
+        query = "SELECT MANAGER.name,CLUB.club_name,no_of_win,no_of_draw,no_of_loss\
+                FROM MANAGER\
+                INNER JOIN MANAGES ON MANAGES.manager_id=MANAGER.manager_id AND %s>=%d AND %s<=%d AND season_year='%s'\
+                INNER JOIN CLUB ON MANAGES.club_id=CLUB.club_id" % (stats[ch], low, stats[ch], high, season_year)
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        headers = ["Name", "Club name", "W", "D", "L", "Win %"]
+        data = []
+        for res in result:
+            res["win%"] = (100*res["no_of_win"]) / (res["no_of_win"] + res["no_of_draw"] + res["no_of_loss"])
+            data.append(list(res.values()))
+        table = columnar(data, headers)
+        print(table)
+        return True
+    
+    except Exception as e:
+        print("Failed to retreive from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
 
 def insertManager():
     try:

@@ -9,6 +9,7 @@ from manager import *
 from club import *
 from coach import *
 from seasontournament import *
+from stats import *
 
 
 def option2():
@@ -91,11 +92,11 @@ def dispatch(ch):
     elif(ch == 26):
         option4()
     elif(ch == 27):
-        option4()
+        getAllPlayersByStat()
     elif(ch == 28):
-        option4()
+        getTransfersByPriceRange()
     elif(ch == 29):
-        option4()
+        getAllManagersByStat()
     elif(ch == 30):
         option4()
     elif(ch == 31):

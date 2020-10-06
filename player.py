@@ -55,6 +55,34 @@ def getAllPlayersByStat():
         print("6. Red Cards")
         print("7. Yellow Cards")
         print("8. Minutes played")
+        
+        ch = int(input())
+        if ch > 8 or ch < 1:
+            print("Invalid choice")
+            return False
+        
+        low = int(input("Enter lower bound:"))
+        high = int(input("Enter upper bound:"))
+
+        season_year = input("Enter season year:")
+
+        stats = ["", "goals", "assists", "saves", "tackles", "clearances", "red_cards", "yellow_cards", "minutes_played"]
+        query = "SELECT PLAYER.player_name,minutes_played,goals,assists,clearances,tackles,red_cards,yellow_cards,saves FROM PLAYER INNER JOIN PLAYED_FOR ON PLAYED_FOR.player_id=PLAYER.player_id AND %s>=%d AND %s<=%d AND season_year='%s'" % (stats[ch], low, stats[ch], high, season_year)
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        headers = ["Name", "Minutes played", "Goals", "Assists", "Clearances", "Tackles", "Red cards", "Yellow cards", "Saves"]
+        data = []
+        for res in result:
+            data.append(list(res.values()))
+        table = columnar(data, headers)
+        print(table)
+        return True
+    
+    except Exception as e:
+        print("Failed to retreive from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
 
 def getAllPlayersByCountry():
     pass
