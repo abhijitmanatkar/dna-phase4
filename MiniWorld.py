@@ -63,7 +63,7 @@ def dispatch(ch):
     elif(ch == 12):
         updateAgentNationality()
     elif(ch == 13):
-        updateManagerNationality()
+        updateManagerClub()
     elif(ch == 14):
         option4()
     elif(ch == 15):
