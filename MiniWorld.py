@@ -144,7 +144,12 @@ while(1):
         else:
             print("Failed to connect")
 
-        tmp = input("Enter any key to CONTINUE>")
+        print("Enter any key to CONTINUE or press Q to quit:")
+        tmp = input().strip()
+        
+        if tmp == "Q":
+            globals.con.close()
+            break
 
         with globals.con.cursor() as globals.cur:
             while(1):
