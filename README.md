@@ -1,29 +1,33 @@
-## INSTRUCTION TO GENERATE THE DATABASE FROM THE DUMP FILE
+## Instructions to generate the Database from the dump file
 
-The dump file is stored as dump.sql inside the given folder.
-Assume the folder name is A and it is stored in your home folder ,use the following commands to generate the database from the dump file
+The dump file is stored as `dump.sql` inside the submission folder.
 
-```
+Log in into a MySQL client on your machine and run the following commands:
+
+```SQL
 CREATE DATABASE FOOTBALL;
 USE FOOTBALL;
-source ~/A/dump.sql;
-
+source /path/to/submission/folder/dump.sql;
 ```
-Basically your source command should be given the path to the dump file as argument.
 
 
 
-## INSTRUCTION TO CREATE THE VIRTUAL ENVIRONMENT AND RUN IT
 
-It is preferable to create a virtual environment to run the CLI
+## Instructions to create the virtual environment and install requirements
+
+It is preferable to create a virtual environment to run the CLI.
+
+Python version >= 3.7 is required to run this project.
 
 Inside the submission folder run the following commands to create and activate the virtual environment  and install the requirements
 
-```
-python3.8 -m venv venv
-source/bin/activate
-pip install -r requirements.txt
+```bash
+$ python3.8 -m venv venv
+OR
+$ python3 -m venv venv
 
+$ source /bin/activate
+$ pip install -r requirements.txt
 ```
 Anything above python3.7 should be fine
 
@@ -31,7 +35,7 @@ Anything above python3.7 should be fine
 
 To Run the Command Line Interface use the following command
 
-```
-python MiniWorld.py
+```bash
+$ python MiniWorld.py
 
 ```
