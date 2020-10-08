@@ -114,30 +114,9 @@ def updateManagerClub():
             print("Not found")
             return False
         
-<<<<<<< HEAD
-        club_name = input("Enter new club Name: ").strip()
-        q = "SELECT * FROM CLUB WHERE club_id=%d" % club_id
-        globals.cur.execute(q)
-        club = globals.cur.fetchone()
-        if club is None:
-            print("Not a valid club")
-            return False
-         
-        season_year = input("Enter current season year (20XX-YY):")
-        if not ValidateSeasonYear(season_year):
-            print("Not a valid season year")
-            return False
-        q = "SELECT * FROM SEASON WHERE season_year='%s'" % (season_year)
-        globals.cur.execute(q)
-        season = globals.cur.fetchone()
-        if season is None:
-            q = "INSERT INTO SEASON (season_year) VALUES ('%s')" % (season_year)
-            globals.cur.execute(q)
-=======
         club_name = input("Enter new club name(Enter 'N' if no current club):").strip()
         if club_name == "N":
             club_name = "N/A"
->>>>>>> 99c5b72ee1f2393b7818e02f900b7a82c57d63c1
     
         query = "UPDATE MANAGER SET current_club='%s' WHERE manager_id=%d" % (club_name, manager_id)
         globals.cur.execute(query)
