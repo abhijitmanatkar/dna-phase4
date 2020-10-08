@@ -10,16 +10,13 @@ USE FOOTBALL;
 source /path/to/submission/folder/dump.sql;
 ```
 
-
-
-
-## Instructions to create the virtual environment and install requirements
+## Instructions to create the virtual environment and Install Requirements
 
 It is preferable to create a virtual environment to run the CLI.
 
 Python version >= 3.7 is required to run this project.
 
-Inside the submission folder run the following commands to create and activate the virtual environment  and install the requirements
+Inside the submission folder run the following commands to create and activate the virtual environment  and install the requirements:
 
 ```bash
 $ python3.8 -m venv venv
@@ -29,13 +26,11 @@ $ python3 -m venv venv
 $ source /bin/activate
 $ pip install -r requirements.txt
 ```
-Anything above python3.7 should be fine
 
-## TO RUN THE CLI
+## To run the CLI
 
-To Run the Command Line Interface use the following command
+To Run the Command Line Interface execute the following command:
 
 ```bash
 $ python MiniWorld.py
-
 ```
