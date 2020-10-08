@@ -23,7 +23,7 @@ $ python3.8 -m venv venv
 OR
 $ python3 -m venv venv
 
-$ source /bin/activate
+$ source ./bin/activate
 $ pip install -r requirements.txt
 ```
 
