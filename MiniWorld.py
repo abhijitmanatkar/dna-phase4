@@ -11,29 +11,6 @@ from coach import *
 from seasontournament import *
 from stats import *
 
-
-def option2():
-    """
-    Function to implement option 1
-    """
-    print("Not implemented")
-
-
-def option3():
-    """
-    Function to implement option 2
-    """
-    print("Not implemented")
-
-
-def option4():
-    """
-    Function to implement option 3
-    """
-    print("Not implemented")
-
-        
-
 def dispatch(ch):
     """
     Function that maps helper functions to option entered
@@ -98,7 +75,7 @@ def dispatch(ch):
     elif(ch == 29):
         getAllManagersByStat()
     elif(ch == 30):
-        option4()
+        getPlayerStatsPer90()
     elif(ch == 31):
         getMaxGoalsPlayerInSeason()
     elif(ch == 32):
@@ -106,13 +83,13 @@ def dispatch(ch):
     elif(ch == 33):
         getMostYellowCardsPlayerInSeason()
     elif(ch == 34):
-        option4()
+        getPlayerCareerStats()
     elif(ch == 35):
         getClubNetSpent()
     elif(ch == 36):
-        option4()
+        searchPlayer()
     elif(ch == 37):
-        option4()
+        searchClub()
     elif(ch == 38):
         getAllPlayers()
     elif(ch == 39):
@@ -128,7 +105,7 @@ def dispatch(ch):
     elif(ch == 44):
         getAllTournaments()
     elif(ch == 45):
-        option4()
+        getClubPerformanceInTournament()
         
     else:
         print("Error: Invalid Option")
@@ -139,8 +116,7 @@ while(1):
     tmp = sp.call('clear', shell=True)
 
     try:
-        # Set db name accordingly which have been create by you
-        # Set host to the server's address if you don't want to use local SQL server 
+        
         globals.con = pymysql.connect(host='sql12.freesqldatabase.com',
                               user='sql12368590',
                               password='EuQ3fsLRGW',
@@ -160,10 +136,10 @@ while(1):
             while(1):
                 tmp = sp.call('clear', shell=True)
                 # The options presented for database operation
-                print("1. Add Agent")  # insert agent 
-                print("2. Add Player")  
-                print("3. Add Club")  # Promote Employee
-                print("4. Add Owner")  # Employee Statistics
+                print("1. Add Agent")  
+                print("2. Add Player") 
+                print("3. Add Club") 
+                print("4. Add Owner")
                 print("5. Add Coach")
                 print("6. Add Season")
                 print("7. Add Manager")
@@ -208,9 +184,6 @@ while(1):
 
                 print("46. Logout")
                 
-                
-
-
                 ch = int(input("Enter choice> "))
                 tmp = sp.call('clear', shell=True)
                 if ch == 46:
@@ -221,6 +194,6 @@ while(1):
             globals.con.close()
 
     except:
-        #tmp = sp.call('clear', shell=True)
+        tmp = sp.call('clear', shell=True)
         print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
         tmp = input("Enter any key to CONTINUE>")

@@ -56,15 +56,15 @@ def getAllPlayersByStat():
         print("7. Yellow Cards")
         print("8. Minutes played")
         
-        ch = int(input())
+        ch = int(input().strip())
         if ch > 8 or ch < 1:
             print("Invalid choice")
             return False
         
-        low = int(input("Enter lower bound:"))
-        high = int(input("Enter upper bound:"))
+        low = int(input("Enter lower bound:").strip())
+        high = int(input("Enter upper bound:").strip())
 
-        season_year = input("Enter season year:")
+        season_year = input("Enter season year:").strip()
 
         stats = ["", "goals", "assists", "saves", "tackles", "clearances", "red_cards", "yellow_cards", "minutes_played"]
         query = "SELECT PLAYER.player_name,minutes_played,goals,assists,clearances,tackles,red_cards,yellow_cards,saves FROM PLAYER INNER JOIN PLAYED_FOR ON PLAYED_FOR.player_id=PLAYER.player_id AND %s>=%d AND %s<=%d AND season_year='%s'" % (stats[ch], low, stats[ch], high, season_year)
@@ -86,21 +86,18 @@ def getAllPlayersByStat():
 
 def getAllPlayersByCountry():
     try:
-        cnt = input("Enter the countries whose players you want : ")
-        tem = cnt.strip(' ')
-        cnt = tem
+        cnt = input("Enter the countries whose players you want : ").strip()
         query = "SELECT * FROM PLAYER WHERE nationality = '%s'" % (cnt)
         globals.cur.execute(query)
         res = globals.cur.fetchall()
         headers = ['player_name','player_id','date_of_birth']
         l1=[]
         for z in res:
-            #print(z)
             lz = list(z.values())
             l1.append(lz)
-            #print(l1)
         table = columnar(l1,headers)
         print(table)
+    
     except Exception as e:
         globals.con.rollback()
         print("Failed to retrieve from database")
@@ -136,7 +133,35 @@ def updatePlayerNationality():
         return False
 
 def searchPlayer():
-    pass
+    try:
+        name = input("Enter search term:")
+        name = '%' + name + '%'
+        query = "SELECT * FROM PLAYER WHERE player_name LIKE '%s'" % name
+        print(query)
+        globals.cur.execute(query)
+        result = globals.cur.fetchall()
+        headers = ['Player ID', 'Name', 'DOB', 'Nationality', 'Agent Name', 'Positions']
+        data = []
+        for res in result:
+            agent_id = res["agent_id"]
+            try:
+                q = "SELECT name FROM AGENT WHERE agent_id=%d" % (agent_id)
+                globals.cur.execute(q)
+                res["agent_id"] = globals.cur.fetchone()["name"]
+            except:
+                res["agent_id"] = ""
+            res["positions"] = getPositions(res["player_id"])
+            reslist = list(res.values())
+            data.append(reslist)
+        table = columnar(data, headers)
+        print(table)
+        return True
+    
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
 
 def insertPlayer():
     try:
@@ -201,12 +226,90 @@ def getPlayerStatsBySeason():
         print(">>>>>>>>>>>>>", e)
         return False
 
-
 def getPlayerStatsPer90():
-    pass
+    try:
+        print("Select which statistic to show:")
+        print("1. Goals")
+        print("2. Assists")
+        print("3. Saves")
+        print("4. Tackles")
+        print("5. Clearances")
+        print("6. Red Cards")
+        print("7. Yellow Cards")
+        
+        ch = int(input())
+        if ch > 7 or ch < 1:
+            print("Invalid choice")
+            return False
+
+        player_id = int(input("Enter player ID:"))
+        season_year = input("Enter season year (20XX-YY):")
+
+        stats = ["", "goals", "assists", "saves", "tackles", "clearances", "red_cards", "yellow_cards"] 
+        
+        query = "SELECT PLAYER.player_name,SUM(%s),SUM(minutes_played)\
+                FROM PLAYED_FOR\
+                INNER JOIN PLAYER ON PLAYED_FOR.player_id = PLAYER.player_id\
+                WHERE PLAYER.player_id=%d AND PLAYED_FOR.season_year='%s'" % (stats[ch], player_id, season_year)
+        
+        globals.cur.execute(query)
+        result = globals.cur.fetchone()
+        try:
+            data = list(result.values())
+            data[1] = data[1] = 90 * data[1] / data[2]
+            data = [data[0:2]]
+        except:
+            print("No results found")
+            return False
+        headers = ["Name", stats[ch] + " per90"]
+        table = columnar(data, headers)
+        print(table)
+        return True
+    
+    except Exception as e:
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
 
 def getPlayerCareerStats():
-    pass
+    try:
+        print("Select which statistic to show:")
+        print("1. Goals")
+        print("2. Assists")
+        print("3. Saves")
+        print("4. Tackles")
+        print("5. Clearances")
+        print("6. Red Cards")
+        print("7. Yellow Cards")
+        print("8. Minutes played")
+        
+        ch = int(input())
+        if ch > 8 or ch < 1:
+            print("Invalid choice")
+            return False
+
+        player_id = int(input("Enter player ID:"))
+
+        stats = ["", "goals", "assists", "saves", "tackles", "clearances", "red_cards", "yellow_cards", "minutes_played"] 
+        
+        query = "SELECT PLAYER.player_name,SUM(%s)\
+                FROM PLAYED_FOR\
+                INNER JOIN PLAYER ON PLAYED_FOR.player_id = PLAYER.player_id\
+                WHERE PLAYER.player_id=%d" % (stats[ch], player_id)
+        
+        globals.cur.execute(query)
+        result = globals.cur.fetchone()
+        data = [list(result.values())]
+        headers = ["Name", "career " + stats[ch]]
+        table = columnar(data, headers)
+        print(table)
+        return True
+    
+    except Exception as e:
+        print("Failed to retrieve from database")
+        print(">>>>>>>>>>>>>", e)
+        return False
+
 def deletePlayer():
     try :
         x = int(input("Enter player_id of the Player to be deleted :"))

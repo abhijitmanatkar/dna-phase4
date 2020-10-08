@@ -4,8 +4,8 @@ from validators import *
 
 def getTransfersByPriceRange():
     try:
-        low = int(input("Enter minimum price:"))
-        high = int(input("Enter maximum price:"))
+        low = int(input("Enter minimum price:").strip())
+        high = int(input("Enter maximum price:").strip())
         query = "SELECT PLAYER.player_name,CLUB_FROM.club_name,CLUB_TO.club_name,AGENT.name,transfer_fee,agent_fee,date_of_transfer\
                 FROM TRANSFER\
                 INNER JOIN PLAYER ON TRANSFER.player_id=PLAYER.player_id\
@@ -32,7 +32,7 @@ def getTransfersByPriceRange():
 
 def getMaxGoalsPlayerInSeason():
     try:
-        season = input("Enter the season you are interested in : ")
+        season = input("Enter the season you are interested in : ").strip()
         if(ValidateSeasonYear(season) == False):
             print("Season year given is wrong")
             return False
@@ -53,7 +53,6 @@ def getMaxGoalsPlayerInSeason():
         headers = ['player_name','club_name','goals']
         for r in result:
             ll = {}
-            #print("here")
             query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(r["player_id"]))
             globals.cur.execute(query)
             t = globals.cur.fetchone()
@@ -69,6 +68,7 @@ def getMaxGoalsPlayerInSeason():
         table = columnar(data,headers)
         print(table)
         return True
+    
     except Exception as e:
         globals.con.rollback()
         print("Failed to retrieve from database")
@@ -78,7 +78,7 @@ def getMaxGoalsPlayerInSeason():
 
 def getMaxAssistsPlayerInSeason():
     try:
-        season = input("Enter the season you are interested in : ")
+        season = input("Enter the season you are interested in : ").strip()
         if(ValidateSeasonYear(season) == False):
             print("Season year given is wrong")
             return False
@@ -99,7 +99,6 @@ def getMaxAssistsPlayerInSeason():
         headers = ['player_name','club_name','yellow_cards']
         for r in result:
             ll = {}
-            #print("here")
             query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(r["player_id"]))
             globals.cur.execute(query)
             t = globals.cur.fetchone()
@@ -115,6 +114,7 @@ def getMaxAssistsPlayerInSeason():
         table = columnar(data,headers)
         print(table)
         return True
+    
     except Exception as e:
         globals.con.rollback()
         print("Failed to retrieve from database")
@@ -124,7 +124,7 @@ def getMaxAssistsPlayerInSeason():
 
 def getMostYellowCardsPlayerInSeason():
     try:
-        season = input("Enter the season you are interested in : ")
+        season = input("Enter the season you are interested in : ").strip()
         if(ValidateSeasonYear(season) == False):
             print("Season year given is wrong")
             return False
@@ -145,7 +145,6 @@ def getMostYellowCardsPlayerInSeason():
         headers = ['player_name','club_name','yellow_cards']
         for r in result:
             ll = {}
-            #print("here")
             query = "SELECT player_name FROM PLAYER WHERE player_id = %d " % (int(r["player_id"]))
             globals.cur.execute(query)
             t = globals.cur.fetchone()
@@ -161,6 +160,7 @@ def getMostYellowCardsPlayerInSeason():
         table = columnar(data,headers)
         print(table)
         return True
+    
     except Exception as e:
         globals.con.rollback()
         print("Failed to retrieve from database")
