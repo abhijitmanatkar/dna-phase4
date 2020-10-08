@@ -56,15 +56,15 @@ def getAllPlayersByStat():
         print("7. Yellow Cards")
         print("8. Minutes played")
         
-        ch = int(input())
+        ch = int(input().strip())
         if ch > 8 or ch < 1:
             print("Invalid choice")
             return False
         
-        low = int(input("Enter lower bound:"))
-        high = int(input("Enter upper bound:"))
+        low = int(input("Enter lower bound:").strip())
+        high = int(input("Enter upper bound:").strip())
 
-        season_year = input("Enter season year:")
+        season_year = input("Enter season year:").strip()
 
         stats = ["", "goals", "assists", "saves", "tackles", "clearances", "red_cards", "yellow_cards", "minutes_played"]
         query = "SELECT PLAYER.player_name,minutes_played,goals,assists,clearances,tackles,red_cards,yellow_cards,saves FROM PLAYER INNER JOIN PLAYED_FOR ON PLAYED_FOR.player_id=PLAYER.player_id AND %s>=%d AND %s<=%d AND season_year='%s'" % (stats[ch], low, stats[ch], high, season_year)
@@ -86,21 +86,18 @@ def getAllPlayersByStat():
 
 def getAllPlayersByCountry():
     try:
-        cnt = input("Enter the countries whose players you want : ")
-        tem = cnt.strip(' ')
-        cnt = tem
+        cnt = input("Enter the countries whose players you want : ").strip()
         query = "SELECT * FROM PLAYER WHERE nationality = '%s'" % (cnt)
         globals.cur.execute(query)
         res = globals.cur.fetchall()
         headers = ['player_name','player_id','date_of_birth']
         l1=[]
         for z in res:
-            #print(z)
             lz = list(z.values())
             l1.append(lz)
-            #print(l1)
         table = columnar(l1,headers)
         print(table)
+    
     except Exception as e:
         globals.con.rollback()
         print("Failed to retrieve from database")
@@ -229,7 +226,6 @@ def getPlayerStatsBySeason():
         print(">>>>>>>>>>>>>", e)
         return False
 
-
 def getPlayerStatsPer90():
     try:
         print("Select which statistic to show:")
@@ -275,7 +271,6 @@ def getPlayerStatsPer90():
         print(">>>>>>>>>>>>>", e)
         return False
 
-
 def getPlayerCareerStats():
     try:
         print("Select which statistic to show:")
@@ -314,7 +309,6 @@ def getPlayerCareerStats():
         print("Failed to retrieve from database")
         print(">>>>>>>>>>>>>", e)
         return False
-
 
 def deletePlayer():
     try :

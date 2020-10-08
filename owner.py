@@ -25,8 +25,8 @@ def getAllOwners():
 def insertOwner():
     try :
         print("Enter Owner details")
-        x = input("Enter the Owner Name :")
-        y = input("Enter the home country of the owning entity :")
+        x = input("Enter the Owner Name :").strip()
+        y = input("Enter the home country of the owning entity :").strip()
         if(ValidateNationality(y) == False):
             print("Given County is wrong")
             return False
@@ -37,9 +37,6 @@ def insertOwner():
         globals.con.commit()
         print("Inserted owner into database")
         return True
-
-
-
        
     except Exception as e:
         globals.con.rollback()
@@ -50,14 +47,14 @@ def insertOwner():
 
 def updateOwnerNationality():
     try:
-        owner_id = int(input("Enter Owner ID:"))
+        owner_id = int(input("Enter Owner ID:").strip())
         q = "SELECT * FROM OWNER WHERE owner_id=%d" % (owner_id)
         globals.cur.execute(q)
         owner = globals.cur.fetchone()
         if owner is None:
             print("Not found")
             return False
-        newNationality = input("Enter new nationality:")
+        newNationality = input("Enter new nationality:").strip()
         if not ValidateNationality(newNationality):
             print("Not a valid nationality")
             return False
@@ -76,7 +73,7 @@ def updateOwnerNationality():
 
 def deleteOwner():
     try :
-        x = int(input("Enter owner_id of the Owner to be deleted"))
+        x = int(input("Enter owner_id of the Owner to be deleted").strip())
         query1 = "DELETE FROM OWNS WHERE owner_id = %d " % (x)
         query = "DELETE FROM OWNER WHERE owner_id = %d " % (x)
         
@@ -84,6 +81,7 @@ def deleteOwner():
         globals.cur.execute(query)
         globals.con.commit()
         print("Owner Deleted")
+    
     except Exception as e:
         globals.con.rollback()
         print("Failed to Delet")

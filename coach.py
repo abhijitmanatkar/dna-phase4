@@ -33,30 +33,28 @@ def insertCoach():
     try:
         row = {}
         print("Enter Coach details: ")
-        row["name"] = input("Enter name:")
-        row["date_of_birth"] = input("Enter Date of Birth (YYYY-MM-DD):")
+        row["name"] = input("Enter name:").strip()
+        row["date_of_birth"] = input("Enter Date of Birth (YYYY-MM-DD):").strip()
         if(ValidateDate(row["date_of_birth"]) == False):
             print("Not a valid Date")
             return False
-        row["nationality"] = input("Enter nationality:")
+        row["nationality"] = input("Enter nationality:").strip()
         if(ValidateNationality(row["nationality"])== False):
             print("Not a valid Nationality")
             return False
-        row["designation"] = input("Enter the designation :")
-        row["manager_id"] = input("Enter the Manager_id of the Manager under whom the coach works:")
+        row["designation"] = input("Enter the designation :").strip()
+        row["manager_id"] = input("Enter the Manager_id of the Manager under whom the coach works:").strip()
 
         globals.cur.execute('SELECT * FROM MANAGER')
         temp = globals.cur.fetchall()
         flag = False
-        #print(row["manager_id"])
+
         for t in temp:
-            #print("manager_id : %d" % t["manager_id"])
             if(int(t["manager_id"]) == int(row["manager_id"])):
                 flag = True
-               # print("inside")
                 break
+       
         if(flag == True):        
-    
             query = "INSERT INTO COACH (name, date_of_birth, nationality, designation, manager_id) VALUES ('%s', '%s', '%s', '%s', '%s')" %  (row["name"], row["date_of_birth"], row["nationality"], row["designation"],row['manager_id'])
             print(query)
             globals.cur.execute(query)
@@ -68,7 +66,6 @@ def insertCoach():
             print("Manager_id given is wrong")
             return False
 
-       
     except Exception as e:
         globals.con.rollback()
         print("Failed to insert into database")
@@ -77,15 +74,15 @@ def insertCoach():
 
 def updateCoachNationality():
     try:
-        name = input("Enter Coach Name:")
-        manager_id = int(input("Enter manager ID:"))
+        name = input("Enter Coach Name:").strip()
+        manager_id = int(input("Enter manager ID:").strip())
         q = "SELECT * FROM COACH WHERE manager_id=%d AND name='%s'" % (manager_id, name)
         globals.cur.execute(q)
         coach = globals.cur.fetchone()
         if coach is None:
             print("Not found")
             return False
-        newNationality = input("Enter new nationality:")
+        newNationality = input("Enter new nationality:").strip()
         if not ValidateNationality(newNationality):
             print("Not a valid nationality")
             return False
@@ -103,21 +100,21 @@ def updateCoachNationality():
         return False
 
 def deleteCoach():
-        try :
-            x = int(input("Enter manager_id of the coach to be deleted: "))
-            y = input("Enter the name of the coach to be deleted: ")
-            
-            query = "DELETE FROM COACH WHERE manager_id = %d AND name = '%s'" % (x,y)
-            #print(query)    
+    try :
+        x = int(input("Enter manager_id of the coach to be deleted: ").strip())
+        y = input("Enter the name of the coach to be deleted: ").strip()
         
-            globals.cur.execute(query)
-            
-            globals.con.commit()
-            print("Coach Deleted")
-            return True
-        except Exception as e:
-            globals.con.rollback()
-            print("Failed to Delete")
-            print(">>>>>>>>>>>>>", e)
-            return False
+        query = "DELETE FROM COACH WHERE manager_id = %d AND name = '%s'" % (x,y)   
+    
+        globals.cur.execute(query)
+        
+        globals.con.commit()
+        print("Coach Deleted")
+        return True
+    
+    except Exception as e:
+        globals.con.rollback()
+        print("Failed to Delete")
+        print(">>>>>>>>>>>>>", e)
+        return False
 

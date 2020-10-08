@@ -4,7 +4,7 @@ from columnar import columnar
 
 def insertSeason():
     try :
-        x = input("Enter the season :")
+        x = input("Enter the season :").strip()
         y = x.replace(" ","")
         x = y
         if(ValidateSeasonYear(x) == False):
@@ -16,9 +16,6 @@ def insertSeason():
         globals.con.commit()
         print("Inserted season into database")
         return True
-
-
-
        
     except Exception as e:
         globals.con.rollback()
@@ -26,9 +23,6 @@ def insertSeason():
         print(">>>>>>>>>>>>>", e)
         return False
         
-        
-
-
 def getAllTournaments():
     try:
         query = "SELECT * FROM TOURNAMENT"
@@ -52,18 +46,18 @@ def getAllTournaments():
 
 def getTournamentTeamsBySeason():
     try:
-        tournament_type = int(input("Enter 0 for leagues and 1 for knockout tournaments:"))
+        tournament_type = int(input("Enter 0 for leagues and 1 for knockout tournaments:").strip())
         if tournament_type != 0 and tournament_type != 1:
             print("Invalid input")
             return False
-        tournament_name = input("Enter tournament name:")
+        tournament_name = input("Enter tournament name:").strip()
         q = "SELECT * FROM TOURNAMENT WHERE tournament_name='%s' AND tournament_type='%s'" % (tournament_name, ("League" if tournament_type == 0 else "Knockout"))
         globals.cur.execute(q)
         tournament = globals.cur.fetchone()
         if tournament is None:
             print("Not a valid tournament")
             return False
-        season_year = input("Enter a season year (20XX-YY):")
+        season_year = input("Enter a season year (20XX-YY):").strip()
         q = "SELECT * FROM SEASON WHERE season_year='%s'" % season_year
         globals.cur.execute(q)
         season = globals.cur.fetchone()
@@ -84,7 +78,6 @@ def getTournamentTeamsBySeason():
             headers = ["Club name", "W", "D", "L", "Stage of Exit"]
         data = []
         for res in result:
-            #print(res)
             data.append(list(res.values()))
         table = columnar(data, headers)
         print(table)
