@@ -130,11 +130,12 @@ while(1):
     tmp = sp.call('clear', shell=True)
 
     try:
-        
-        globals.con = pymysql.connect(host='sql12.freesqldatabase.com',
-                              user='sql12368590',
-                              password='EuQ3fsLRGW',
-                              db='sql12368590',
+        us = input("Enter username : ").strip()
+        pwd = input("Enter password : ")
+        globals.con = pymysql.connect(host='localhost',
+                              user= us,
+                              password= pwd,
+                              db= 'FOOTBALL',
                               port=3306,
                               cursorclass=pymysql.cursors.DictCursor)
         tmp = sp.call('clear', shell=True)

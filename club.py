@@ -5,7 +5,7 @@ from columnar import columnar
 def getAllClubs():
     try:
         query = "SELECT * FROM CLUB"
-        print(query)
+        #print(query)
         globals.cur.execute(query)
         result = globals.cur.fetchall()
         headers = ['Club ID', 'Name', 'Home Ground', 'Foundation Year', 'Street Address', 'Zip Code', 'City', 'Country']
