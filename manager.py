@@ -2,6 +2,7 @@ import globals
 from validators import *
 from columnar import columnar
 
+#Display the table MANAGER
 def getAllManagers():
     try:
         query = "SELECT * FROM MANAGER"
@@ -22,6 +23,9 @@ def getAllManagers():
         print(">>>>>>>>>>>>>", e)
         return False
 
+#Displays all manager who has a particular stat taken as input within a given range
+#range is also taken as input
+#season_year is also given as input and stat is for that particular time frame
 def getAllManagersByStat():
     # get all managers filtered by a stat
     try:
@@ -31,15 +35,19 @@ def getAllManagersByStat():
         print("3. Losses")
         print("4. Win %")
         
-        ch = int(input())
+        ch = int(input().strip())
         if ch > 5 or ch < 1:
             print("Invalid choice")
             return False
         
-        low = int(input("Enter lower bound:"))
-        high = int(input("Enter upper bound:"))
+        low = int(input("Enter lower bound: ").strip())
+        high = int(input("Enter upper bound: ").strip())
+    
 
-        season_year = input("Enter season year:")
+        season_year = input("Enter season year: ").strip()
+        if(ValidateSeasonYear(season_year) == False):
+            print("Season year given is in the wrong format")
+            return False
 
         stats = ["", "no_of_win", "no_of_draw", "no_of_loss", "(100*no_of_win)/(no_of_win + no_of_draw + no_of_loss)"]
         query = "SELECT MANAGER.name,CLUB.club_name,no_of_win,no_of_draw,no_of_loss\
@@ -62,34 +70,30 @@ def getAllManagersByStat():
         print(">>>>>>>>>>>>>", e)
         return False
 
+#insert data provided of a manager in the MANAGER RELATIONSHIP
 def insertManager():
     try:
         row = {}
         print("Enter Managers's details: ")
-        row["name"] = input("Enter name:")
-        row["date_of_birth"] = input("Enter Date of Birth (YYYY-MM-DD):")
+        row["name"] = input("Enter name: ").strip()
+        row["date_of_birth"] = input("Enter Date of Birth (YYYY-MM-DD): ").strip()
         if(ValidateDate(row["date_of_birth"]) == False):
             print("Not a valid Date")
             return False
-        row["nationality"] = input("Enter nationality:")
+        row["nationality"] = input("Enter nationality: ").strip()
         if(ValidateNationality(row["nationality"])== False):
             print("Not a valid Nationality")
             return False
-        row["current_club"] = input("Enter the current_club(press N if no current club) :")
+        row["current_club"] = input("Enter the current_club(press N if no current club) : ").strip()
         test = "N"
 
-        if(test == row["current_club"]):
-            print("here")
-            row["current_club"] = None
-            query = "INSERT INTO MANAGER (name, date_of_birth, nationality, current_club) VALUES ('%s', '%s', '%s', %s)" %  (row["name"], row["date_of_birth"], row["nationality"], None)
-            print(query)
-            globals.cur.execute(query)
-            globals.con.commit()
-        else:
-            query = "INSERT INTO MANAGER (name, date_of_birth, nationality, current_club) VALUES ('%s', '%s', '%s', '%s')" %  (row["name"], row["date_of_birth"], row["nationality"], row["current_club"])
-            print(query)
-            globals.cur.execute(query)
-            globals.con.commit()
+     
+        if(row["current_club"] == test):
+            row["current_club"] = "N/A"
+        query = "INSERT INTO MANAGER (name, date_of_birth, nationality, current_club) VALUES ('%s', '%s', '%s', '%s')" %  (row["name"], row["date_of_birth"], row["nationality"], row["current_club"])
+      
+        globals.cur.execute(query)
+        globals.con.commit()
 
         print("Inserted Manager into database")
         return True
@@ -99,10 +103,10 @@ def insertManager():
         print("Failed to insert into database")
         print(">>>>>>>>>>>>>", e)
         return False
-
+#update the current club of the manager where manager_id is given as input
 def updateManagerClub():
     try:
-        manager_id = int(input("Enter Manager ID:"))
+        manager_id = int(input("Enter Manager ID: ").strip())
         q = "SELECT * FROM MANAGER WHERE manager_id=%d" % (manager_id)
         globals.cur.execute(q)
         manager = globals.cur.fetchone()
@@ -128,9 +132,12 @@ def updateManagerClub():
         print(">>>>>>>>>>>>>", e)
         return False
 
+
+#delete Manager From Manager when manager_id is given 
+#Also deletes entries in other relationships which references the given manager
 def deleteManager():
         try :
-            x = int(input("Enter manager_id of the manager to be deleted"))
+            x = int(input("Enter manager_id of the manager to be deleted ").strip())
             query1 = "DELETE FROM MANAGES WHERE manager_id = %d " % (x)
             query2 = "DELETE FROM COACH WHERE manager_id = %d " % (x)
             query = "DELETE FROM MANAGER WHERE manager_id = %d " % (x)
@@ -140,7 +147,7 @@ def deleteManager():
             globals.cur.execute(query2)
             globals.cur.execute(query)
             globals.con.commit()
-            print("Manager Deleted")
+            print("Manager Doesnot exist anymore")
             return True
         except Exception as e:
             globals.con.rollback()
@@ -149,16 +156,21 @@ def deleteManager():
             return False
 
 
+
+
+
+
+#Changes the nationality of the manager when manager_id and new nationality is given as input
 def updateManagerNationality():
     try:
-        manager_id = int(input("Enter Manager ID:"))
+        manager_id = int(input("Enter Manager ID: ").strip())
         q = "SELECT * FROM MANAGER WHERE manager_id=%d" % (manager_id)
         globals.cur.execute(q)
         manager = globals.cur.fetchone()
         if manager is None:
             print("Not found")
             return False
-        newNationality = input("Enter new nationality:")
+        newNationality = input("Enter new nationality: ").strip()
         if not ValidateNationality(newNationality):
             print("Not a valid nationality")
             return False
